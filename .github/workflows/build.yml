@@ -4,15 +4,13 @@ on:
   push:
     branches:
       - master
+      - auto-wrap
   merge_group:
-  schedule:
-    - cron: '00 01 * * *'
 
 jobs:
   check:
     name: Check (msrv)
     runs-on: ubuntu-latest
-    if: github.repository == 'helix-editor/helix' || github.event_name != 'schedule'
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -32,7 +30,6 @@ jobs:
   test:
     name: Test Suite
     runs-on: ${{ matrix.os }}
-    if: github.repository == 'helix-editor/helix' || github.event_name != 'schedule'
     env:
       RUST_BACKTRACE: 1
       HELIX_LOG_LEVEL: info
@@ -67,7 +64,6 @@ jobs:
   lints:
     name: Lints
     runs-on: ubuntu-latest
-    if: github.repository == 'helix-editor/helix' || github.event_name != 'schedule'
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -95,7 +91,6 @@ jobs:
   docs:
     name: Docs
     runs-on: ubuntu-latest
-    if: github.repository == 'helix-editor/helix' || github.event_name != 'schedule'
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
