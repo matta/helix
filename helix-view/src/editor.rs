@@ -43,7 +43,9 @@ use anyhow::{anyhow, bail, Error};
 pub use helix_core::diagnostic::Severity;
 use helix_core::{
     auto_pairs::AutoPairs,
-    syntax::{self, AutoPairConfig, IndentationHeuristic, LanguageServerFeature, SoftWrap},
+    syntax::{
+        self, AutoPairConfig, AutoWrap, IndentationHeuristic, LanguageServerFeature, SoftWrap,
+    },
     Change, LineEnding, Position, Range, Selection, NATIVE_LINE_ENDING,
 };
 use helix_dap as dap;
@@ -324,6 +326,7 @@ pub struct Config {
     /// Whether to color modes with different colors. Defaults to `false`.
     pub color_modes: bool,
     pub soft_wrap: SoftWrap,
+    pub auto_wrap: AutoWrap,
     /// Workspace specific lsp ceiling dirs
     pub workspace_lsp_roots: Vec<PathBuf>,
     /// Which line ending to choose for new documents. Defaults to `native`. i.e. `crlf` on Windows, otherwise `lf`.
@@ -965,6 +968,9 @@ impl Default for Config {
             soft_wrap: SoftWrap {
                 enable: Some(false),
                 ..SoftWrap::default()
+            },
+            auto_wrap: AutoWrap {
+                enable: Some(false),
             },
             text_width: 80,
             completion_replace: false,

@@ -118,6 +118,7 @@ pub struct LanguageConfiguration {
     pub block_comment_tokens: Option<Vec<BlockCommentToken>>,
     pub text_width: Option<usize>,
     pub soft_wrap: Option<SoftWrap>,
+    pub auto_wrap: Option<AutoWrap>,
 
     #[serde(default)]
     pub auto_format: bool,
@@ -854,6 +855,17 @@ pub struct SoftWrap {
     pub wrap_indicator: Option<String>,
     /// Softwrap at `text_width` instead of viewport width if it is shorter
     pub wrap_at_text_width: Option<bool>,
+}
+
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(default, rename_all = "kebab-case", deny_unknown_fields)]
+pub struct AutoWrap {
+    /// Hard wrap lines that exceed text-width. Default to off.
+    // NOTE: Option on purpose because the struct is shared between language
+    // config and global config.
+    // By default the option is None so that the language config falls back to
+    // the global config unless explicitly set.
+    pub enable: Option<bool>,
 }
 
 #[derive(Debug)]
